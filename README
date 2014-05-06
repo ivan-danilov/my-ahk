@@ -1,0 +1,4 @@
+AutoHotkey.ahk should not change. Once at installation it has to be copied to Documents folder.
+It's task is to run script %HOME%\AHK\MyRoot.ahk
+
+AHK is not able to #include scripts located with environment variables like %HOME%, so AutoHotkey.ahk file plays bootstrapper role here to workaround this.
