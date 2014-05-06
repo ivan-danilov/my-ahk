@@ -46,6 +46,7 @@ SendInputAndActivate(input, winToActivate)
 return
 
 ^!#r::Edit
+^!#e::Run *RunAs d:\Programs\emacs-24.3\bin\runemacs.exe
 
 #IfWinActive MyRoot.ahk - Notepad
 !s::
