@@ -49,6 +49,10 @@ return
 
 ^!#r::Edit
 ^!#e::Run *RunAs d:\Programs\emacs-24.3\bin\runemacs.exe
+^!#c::
+	Runwait, taskkill /im cntlm.exe /f,, Hide
+	Run, net start cntlm,, Hide
+return
 
 #IfWinActive MyRoot.ahk - Notepad
 !s::
