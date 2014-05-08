@@ -45,6 +45,8 @@ SendInputAndActivate(input, winToActivate)
 	WinMinimize
 return
 
+#r::Run *RunAs rundll32.exe shell32.dll`,#61
+
 ^!#r::Edit
 ^!#e::Run *RunAs d:\Programs\emacs-24.3\bin\runemacs.exe
 
