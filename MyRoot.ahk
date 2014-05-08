@@ -17,10 +17,18 @@ SendInputAndActivate(input, winToActivate)
 	}
 }
 
+FixString(input)
+{
+	StringReplace, input, input, :, {shift down}{sc027}{shift up}, All
+	StringReplace, input, input, /, {sc035}, All
+	StringReplace, input, input, ., {sc034}, All
+	return input
+}
+
 #IfWinActive MINGW32:
 !s::SendInput git status{enter}
-!a::SendInputAndActivate("TortoiseGitProc.exe /command:log /path:. &{enter}", "Log Messages - ")
-!b::SendInputAndActivate("TortoiseGitProc.exe /command:log /path:UI &{enter}", "Log Messages - ")
+!a::SendInputAndActivate(FixString("TortoiseGitProc.exe /command:log /path:. &{enter}"), "Log Messages - ")
+!b::SendInputAndActivate(FixString("TortoiseGitProc.exe /command:log /path:UI &{enter}"), "Log Messages - ")
 !c::SendInputAndActivate("gitex commit{enter}", "Commit - ")
 !d::SendInput git reset --hard{space}
 !r::SendInput rcheckin{enter}
@@ -28,9 +36,9 @@ SendInputAndActivate(input, winToActivate)
 !q::SendInput git stash --include-untracked{enter}
 !+q::SendInput git stash{enter}
 !^q::SendInput git stash --keep-index --include-untracked{enter}
-!w::SendInput git rebase origin/tfs/dev{enter}
+!w::SendInput % FixString("git rebase origin/tfs/dev{enter}")
 !e::SendInput git stash pop{enter}
-!i::SendInput git rebase -i --autosquash origin/tfs/dev{enter}
+!i::SendInput % FixString("git rebase -i --autosquash origin/tfs/dev{enter}")
 !p::SendInput git push{enter}
 #IfWinActive
 
