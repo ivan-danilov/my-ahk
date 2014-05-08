@@ -45,7 +45,16 @@ SendInputAndActivate(input, winToActivate)
 	WinMinimize
 return
 
-#r::Run *RunAs rundll32.exe shell32.dll`,#61
+#r::
+	IfWinExist, Run ahk_class #32770
+	{
+		WinActivate
+		return
+	}
+	Run *RunAs rundll32.exe shell32.dll`,#61
+	WinWait, Run ahk_class #32770
+	WinActivate
+return
 
 ^!#r::Edit
 ^!#e::Run *RunAs d:\Programs\emacs-24.3\bin\runemacs.exe
