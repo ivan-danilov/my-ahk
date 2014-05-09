@@ -71,7 +71,7 @@ return
 	Run, net start cntlm,, Hide
 return
 
-#IfWinActive MyRoot.ahk - Notepad
+#IfWinActive MyRoot ahk_class Notepad
 !s::
 	SendInput {LCtrl down}s{LCtrl up}
 	Reload
