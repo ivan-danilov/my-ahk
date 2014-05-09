@@ -25,6 +25,18 @@ FixString(input)
 	return input
 }
 
+!+q::
+  textToProcess := GetSelectedText()
+  textToPresent := GetTranslated(textToProcess)
+  if ( StrLen(textToPresent) > 0 )
+    ReplaceSelectedText(textToPresent)
+  Send {Ctrl Down}{LShift}{Ctrl Up}
+return
+
+!+w::
+  ShowTranslatedText(GetTranslated(GetSelectedText()))
+return
+
 #IfWinActive MINGW32:
 !s::SendInput git status{enter}
 !a::SendInputAndActivate(FixString("TortoiseGitProc.exe /command:log /path:. &{enter}"), "Log Messages - ")

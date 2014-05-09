@@ -18,18 +18,6 @@ rusSymbols := "ёйцукенгшщзхъфывапролджэячсмитьб�
 ; if engSymbols.Length() != rusSymbols.Length()
 ; then you.IntelligenceLevel := Imbecile
 
-!+q::
-  textToProcess := GetSelectedText()
-  textToPresent := GetTranslated(textToProcess)
-  if ( StrLen(textToPresent) > 0 )
-    ReplaceSelectedText(textToPresent)
-  Send {Ctrl Down}{LShift}{Ctrl Up}
-return
-
-!+w::
-  ShowTranslatedText(GetTranslated(GetSelectedText()))
-return
-
 GetSelectedText()
 {
   clipSaved := clipboardAll
