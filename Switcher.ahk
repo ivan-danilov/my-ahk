@@ -46,11 +46,11 @@ ShowTranslatedText(textToPresent)
   } else {
     if ( A_CaretX > 0 and A_CaretY > 0 ) {
       ToolTip , %textToPresent% , A_CaretX, A_CaretY
-	} else {
-	  MouseGetPos, mouseX, mouseY
+    } else {
+      MouseGetPos, mouseX, mouseY
       ToolTip , %textToPresent% , mouseX, mouseY
-	}
-	SetTimer, RemoveToolTip, %ShortMessageTooltipTimeout%
+    }
+    SetTimer, RemoveToolTip, %ShortMessageTooltipTimeout%
   }
 }
 
@@ -72,24 +72,22 @@ GetTranslated(str)
     return
   if ( translation = TranslateEngToRus ) {
     replaceFrom := engSymbols
-	replaceTo := rusSymbols
+    replaceTo := rusSymbols
   }
   if ( translation = TranslateRusToEng ) {
     replaceFrom := rusSymbols
-	replaceTo := engSymbols
+    replaceTo := engSymbols
   }
   result =
   loop % StrLen(str)
   {
     actualChar := SubStr(str, a_index, 1)
-	charIndex := InStr(replaceFrom, actualChar, true)
-;	if ( SubStr(replaceFrom, charIndex, 1) != actualChar )
-;	  charIndex := InStr(replaceFrom, actualChar, true, 2)
+    charIndex := InStr(replaceFrom, actualChar, true)
     if ( charIndex > 0 ) {
-	  result := result . SubStr(replaceTo, charIndex, 1)
-	} else {
-	  result := result . actualChar
-	}
+      result := result . SubStr(replaceTo, charIndex, 1)
+    } else {
+      result := result . actualChar
+    }
   }
   return %result%
 }
@@ -106,11 +104,11 @@ GetTranslation(str)
   {
     actualChar := SubStr(str, a_index, 1)
     isEngToRus := InStr(engSymbols, actualChar)
-	isRusToEng := InStr(rusSymbols, actualChar)
-	if ( isEngToRus and not isRusToEng )
-	  return TranslateEngToRus
-	if ( isRusToEng and not isEngToRus )
-	  return TranslateRusToEng
+    isRusToEng := InStr(rusSymbols, actualChar)
+    if ( isEngToRus and not isRusToEng )
+      return TranslateEngToRus
+    if ( isRusToEng and not isEngToRus )
+      return TranslateRusToEng
   }
   return TranslateNone
 }
