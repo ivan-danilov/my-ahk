@@ -1,9 +1,9 @@
 #SingleInstance force
 
-#include %A_ScriptDir%\Switcher.ahk
-
 SetTitleMatchMode, RegEx
 DetectHiddenWindows, off
+
+#include %A_ScriptDir%\Switcher.ahk
 return
 
 SendInputAndActivate(input, winToActivate)
@@ -37,7 +37,7 @@ return
   ShowTranslatedText(GetTranslated(GetSelectedText()))
 return
 
-#IfWinActive MINGW32:/d/ets
+#IfWinActive MINGW32:/.*/ets$
 !w::SendInput % FixString("git rebase origin/tfs/dev{enter}")
 !i::SendInput % FixString("git rebase -i --autosquash origin/tfs/dev{enter}")
 #IfWinActive
