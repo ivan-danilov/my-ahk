@@ -37,6 +37,11 @@ return
   ShowTranslatedText(GetTranslated(GetSelectedText()))
 return
 
+#IfWinActive MINGW32:/d/ets
+!w::SendInput % FixString("git rebase origin/tfs/dev{enter}")
+!i::SendInput % FixString("git rebase -i --autosquash origin/tfs/dev{enter}")
+#IfWinActive
+
 #IfWinActive MINGW32:
 !s::SendInput git status{enter}
 !a::SendInputAndActivate(FixString("TortoiseGitProc.exe /command:log /path:. &{enter}"), "Log Messages - ")
@@ -48,9 +53,9 @@ return
 !q::SendInput git stash --include-untracked{enter}
 !+q::SendInput git stash{enter}
 !^q::SendInput git stash --keep-index --include-untracked{enter}
-!w::SendInput % FixString("git rebase origin/tfs/dev{enter}")
+!w::SendInput % FixString("git rebase origin/master{enter}")
+!i::SendInput % FixString("git rebase -i --autosquash origin/master{enter}")
 !e::SendInput git stash pop{enter}
-!i::SendInput % FixString("git rebase -i --autosquash origin/tfs/dev{enter}")
 !p::SendInput git push{enter}
 #IfWinActive
 
