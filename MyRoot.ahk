@@ -22,6 +22,7 @@ FixString(input)
 	StringReplace, input, input, :, {shift down}{sc027}{shift up}, All
 	StringReplace, input, input, /, {sc035}, All
 	StringReplace, input, input, ., {sc034}, All
+	StringReplace, input, input, ^, {shift down}{sc007}{shift up}, All
 	return input
 }
 
@@ -57,6 +58,7 @@ return
 !i::SendInput % FixString("git rebase -i --autosquash origin/master{enter}")
 !e::SendInput git stash pop{enter}
 !p::SendInput git push{enter}
+!BS::SendInput % FixString("git reset @^{enter}")
 #IfWinActive
 
 #IfWinActive Credential Input
