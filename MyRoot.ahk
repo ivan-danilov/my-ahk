@@ -3,7 +3,7 @@
 SetTitleMatchMode, RegEx
 DetectHiddenWindows, off
 
-#include %A_ScriptDir%\Switcher.ahk
+;#include %A_ScriptDir%\Switcher.ahk
 return
 
 SendInputAndActivate(input, winToActivate)
@@ -19,6 +19,8 @@ SendInputAndActivate(input, winToActivate)
 
 FixString(input)
 {
+	if WinActive("ahk_class mintty")
+		return input
 	StringReplace, input, input, :, {shift down}{sc027}{shift up}, All
 	StringReplace, input, input, /, {sc035}, All
 	StringReplace, input, input, ., {sc034}, All
@@ -37,19 +39,33 @@ FixString(input)
 ;  ShowTranslatedText(GetTranslated(GetSelectedText()))
 ;return
 
-
-#IfWinActive MINGW32:/.*/ets$
+#IfWinActive MINGW(32|64):/.*/ets$
 !w::SendInput % FixString("git rebase origin/tfs/dev{enter}")
 !i::SendInput % FixString("git rebase -i --autosquash origin/tfs/dev{enter}")
+!r::SendInput rcheckin{enter}
+!+d::SendInput % FixString("git reset --hard origin/tfs/dev{enter}")
 #IfWinActive
 
-#IfWinActive MINGW32:
+#IfWinActive MINGW(32|64):/.*/ets-cimems$
+!w::SendInput % FixString("git rebase origin/tfs/dev{enter}")
+!i::SendInput % FixString("git rebase -i --autosquash origin/tfs/dev{enter}")
+!r::SendInput git tfs bootstrap{enter}git tfs rcheckin -i dev{enter}
+#IfWinActive
+
+#IfWinActive MINGW(32|64):/.*/ets-psr($|/)
+!f::SendInput git svn fetch{enter}
+!r::SendInput git svn dcommit{enter}
+!w::SendInput git rebase git-svn{enter}
+!i::SendInput git rebase -i --autosquash git-svn{enter}
+!d::SendInput git reset --hard git-svn
+#IfWinActive
+
+#IfWinActive MINGW(32|64):
 !s::SendInput git status{enter}
 !a::SendInputAndActivate(FixString("TortoiseGitProc.exe /command:log /path:. &{enter}"), "Log Messages - ")
 !b::SendInputAndActivate(FixString("TortoiseGitProc.exe /command:log /path:UI &{enter}"), "Log Messages - ")
 !c::SendInputAndActivate("gitex commit{enter}", "Commit - ")
 !d::SendInput git reset --hard{space}
-!r::SendInput rcheckin{enter}
 !f::SendInput git fetch --prune{enter}
 !q::SendInput git stash --include-untracked{enter}
 !+q::SendInput git stash{enter}
@@ -59,18 +75,16 @@ FixString(input)
 !e::SendInput git stash pop{enter}
 !p::SendInput git push{enter}
 !BS::SendInput % FixString("git reset @^{enter}")
+!+BS::SendInput git reset --hard @^{enter}
 #IfWinActive
 
 #IfWinActive Credential Input
 !q::SendInput idanilov\csm{Tab}B@ckd00r{Enter}{Enter}
 #IfWinActive
 
-#+`::
-	ListLines  ; Show the script's main window.
-	WinWaitActive ahk_class AutoHotkey
-	Send {LCtrl down}{Shift}{LCtrl up}  ; Switch to alternate language (keys must be in this format).
-	WinMinimize
-return
+#IfWinActive Windows Security
+!q::SendInput localhost\csm{Tab}B@ckd00r{Enter}
+#IfWinActive
 
 #r::
 	IfWinExist, Run ahk_class #32770
