@@ -25,18 +25,18 @@ FixString(input)
 	StringReplace, input, input, ^, {shift down}{sc007}{shift up}, All
 	return input
 }
+;!+q::
+;  textToProcess := GetSelectedText()
+;  textToPresent := GetTranslated(textToProcess)
+;  if ( StrLen(textToPresent) > 0 )
+;    ReplaceSelectedText(textToPresent)
+;  Send {Ctrl Down}{LShift}{Ctrl Up}
+;return
 
-!+q::
-  textToProcess := GetSelectedText()
-  textToPresent := GetTranslated(textToProcess)
-  if ( StrLen(textToPresent) > 0 )
-    ReplaceSelectedText(textToPresent)
-  Send {Ctrl Down}{LShift}{Ctrl Up}
-return
+;!+w::
+;  ShowTranslatedText(GetTranslated(GetSelectedText()))
+;return
 
-!+w::
-  ShowTranslatedText(GetTranslated(GetSelectedText()))
-return
 
 #IfWinActive MINGW32:/.*/ets$
 !w::SendInput % FixString("git rebase origin/tfs/dev{enter}")
