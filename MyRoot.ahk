@@ -42,7 +42,8 @@ FixString(input)
 #IfWinActive MINGW(32|64):/.*/ets$
 !w::SendInput % FixString("git rebase origin/tfs/dev{enter}")
 !i::SendInput % FixString("git rebase -i --autosquash origin/tfs/dev{enter}")
-!r::SendInput rcheckin{enter}
+!r::SendInput % FixString("./rcheckin{enter}")
+!b::SendInput % FixString("./qbuild{enter}")
 !+d::SendInput % FixString("git reset --hard origin/tfs/dev{enter}")
 #IfWinActive
 
@@ -63,7 +64,6 @@ FixString(input)
 #IfWinActive MINGW(32|64):
 !s::SendInput git status{enter}
 !a::SendInputAndActivate(FixString("TortoiseGitProc.exe /command:log /path:. &{enter}"), "Log Messages - ")
-!b::SendInputAndActivate(FixString("TortoiseGitProc.exe /command:log /path:UI &{enter}"), "Log Messages - ")
 !c::SendInputAndActivate("gitex commit{enter}", "Commit - ")
 !d::SendInput git reset --hard{space}
 !f::SendInput git fetch --prune{enter}
@@ -78,12 +78,46 @@ FixString(input)
 !+BS::SendInput git reset --hard @^{enter}
 #IfWinActive
 
+; APF window
 #IfWinActive Credential Input
-!q::SendInput idanilov\csm{Tab}B@ckd00r{Enter}{Enter}
+!q::
+	SendInput idanilov\csm{Tab}B@ckd00r
+	Sleep 200
+	SendInput {Enter}
+	WinWait, Console - Applications -, , 8
+	WinGet ConsoleHwnd
+	if ErrorLevel
+	{
+		return
+	}
+	WinActivate
+	Sleep 100
+	CoordMode Mouse, Relative
+	Click 445, 176, 2
+	WinWait, e-terrasource, , 5
+	if (ErrorLevel = 0)
+	{
+		WinActivate
+		Sleep 300
+		CoordMode Mouse, Relative
+		Click 176, 260
+	}
+	WinWait, e-terrasource - A - APF - , , 120
+	WinClose, ahk_id %ConsoleHwnd%
+return
+!+q::  ; just type in the credentials
+	SendInput idanilov\csm{Tab}B@ckd00r
+	Sleep 200
+	SendInput {Enter}
+return
 #IfWinActive
 
 #IfWinActive Windows Security
 !q::SendInput localhost\csm{Tab}B@ckd00r{Enter}
+#IfWinActive
+
+#IfWinActive NMSproject - Mozilla Firefox
+^#c::SendInput % "{{}noformat:wrap=nowrap{}}{{}noformat{}}{Ctrl Down}{Left}{Ctrl Up}{Left}"
 #IfWinActive
 
 #r::
